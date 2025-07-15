@@ -1,5 +1,6 @@
-Django==5.0,
+Django==5.0
 djangorestframework
-djongo
-pymongo
+mongoengine
+drf-mongoengine
 python-decouple
+pytz>=2024.1
