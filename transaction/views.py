@@ -8,4 +8,8 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
 class GoalViewSet(viewsets.ModelViewSet):
     queryset = Goal.objects.all()
-    serializer_class = GoalSerializer    
+    serializer_class = GoalSerializer
+
+class TransactionListCreateView(viewsets.ViewSet):
+    queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer    

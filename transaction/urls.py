@@ -8,7 +8,7 @@ router.register(r'transactions', TransactionViewSet, basename='transaction')
 router.register(r'goals', GoalViewSet, basename='goal')
 
 urlpatterns = [
-    path('', views.TransactionListCreateView.as_view(), name='transaction-list-create'),
+    path('list/', views.TransactionListCreateView.as_view(), name='transaction-list-create'),
     path('', include(router.urls)),
 ]
 
