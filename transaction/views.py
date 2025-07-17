@@ -1,15 +1,18 @@
-from rest_framework import viewsets
-from .models import Transaction, Goal
-from .serializers import TransactionSerializer, GoalSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Transaction
+from .serializers import TransactionSerializer
 
-class TransactionViewSet(viewsets.ModelViewSet):
-    queryset = Transaction.objects.all()
-    serializer_class = TransactionSerializer
+class TransactionListCreateView(APIView):
+    def get(self, request):
+        transactions = Transaction.objects.all()
+        serializer = TransactionSerializer(transactions, many=True)
+        return Response(serializer.data)
 
-class GoalViewSet(viewsets.ModelViewSet):
-    queryset = Goal.objects.all()
-    serializer_class = GoalSerializer
-
-class TransactionListCreateView(viewsets.ViewSet):
-    queryset = Transaction.objects.all()
-    serializer_class = TransactionSerializer    
+    def post(self, request):
+        serializer = TransactionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
