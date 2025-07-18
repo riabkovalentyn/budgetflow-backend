@@ -4,7 +4,7 @@ from .views import TransactionListCreateView
 
 
 urlpatterns = [
-    path('list/', views.TransactionListCreateView.as_view(), name='transaction-list-create'),
+    path('list/', TransactionListCreateView.as_view(), name='transaction-list-create'),
 ]
 
 
