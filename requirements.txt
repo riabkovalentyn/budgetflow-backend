@@ -3,3 +3,4 @@ djangorestframework
 mongoengine>=0.29
 python-decouple
 pytz>=2024.1
+djangorestframework-simplejwt
