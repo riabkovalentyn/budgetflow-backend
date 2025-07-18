@@ -1,11 +1,15 @@
 from django.urls import path, include
-from . import views
+from rest_framework.routers import DefaultRouter
+from .views.transactions import TransactionViewSet
+from .views.goal import GoalViewSet
 
+router = DefaultRouter()
+router.register(r'transactions', TransactionViewSet, basename='transaction')
+router.register(r'goals', GoalViewSet, basename='goal')
 
 
 urlpatterns = [
-    path('goals/', views.GoalViewSet.as_view({'get': 'list', 'post': 'create'}), name='goal-list-create'),
-    path('goals/<int:pk>/', views.GoalViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='goal-detail'),
+    path('', include(router.urls)),
 ]
 
 
