@@ -81,7 +81,14 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'mongoengine.django.mongoengine.MongoEngine',
+        'NAME': config('MONGO_DB', default='budgetflow_db'),
+        'HOST': config('MONGO_HOST', default='mongo'),
+        'PORT': int(config('MONGO_PORT', cast=int, default=27017)),
+    }
+}
 
 
 # Password validation
