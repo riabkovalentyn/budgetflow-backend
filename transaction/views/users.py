@@ -1,7 +1,4 @@
-from django.db import models
-from django.contrib.auth.models import AbstractUser
+"""User-related endpoints (future).
 
-class User(AbstractUser):
-    email = models.EmailField(unique=True)
-    username = models.CharField(max_length=150, unique=True)
-    password = models.CharField(max_length=128)
+For MVP we use Django's built-in User model with JWT auth.
+"""

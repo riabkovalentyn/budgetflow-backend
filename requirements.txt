@@ -1,8 +1,9 @@
-Django>4.2,<5.0
-djangorestframework
+Django>=4.2,<5.0
+djangorestframework>=3.14
 mongoengine>=0.29
-python-decouple
-pytz>=2024.1
-djangorestframework-simplejwt
+python-decouple>=3.8
+djangorestframework-simplejwt>=5.3
+django-cors-headers>=4.4
+python-dotenv>=1.0
 pytest
 pytest-django
