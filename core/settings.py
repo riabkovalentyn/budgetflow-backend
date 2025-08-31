@@ -110,3 +110,8 @@ CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', cast=bool, default=Tru
 CORS_ALLOWED_ORIGINS = [
     origin.strip() for origin in config('CORS_ALLOWED_ORIGINS', default='http://localhost:3000,http://127.0.0.1:3000').split(',') if origin.strip()
 ]
+
+# AI settings
+AI_PROVIDER = config('AI_PROVIDER', default='openai')
+OPENAI_API_KEY = config('OPENAI_API_KEY', default='')
+AI_FEATURES_ENABLED = config('AI_FEATURES_ENABLED', cast=bool, default=False)

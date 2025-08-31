@@ -7,3 +7,4 @@ django-cors-headers>=4.4
 python-dotenv>=1.0
 pytest
 pytest-django
+openai>=1.40.0
