@@ -6,10 +6,10 @@ from datetime import datetime, time as time_cls, date as date_cls
 
 class TransactionSerializer(serializers.Serializer):
     id = serializers.CharField(read_only=True)
-    type = serializers.ChoiceField(choices=['income', 'expense'])
-    amount = serializers.DecimalField(max_digits=12, decimal_places=2)
+    type = serializers.ChoiceField(choices=(('income', 'income'), ('expense', 'expense')))
+    amount = serializers.DecimalField(max_digits=12, decimal_places=2, min_value=0)
     category = serializers.CharField(max_length=150)
-    description = serializers.CharField(allow_blank=True, required=False)
+    description = serializers.CharField(allow_blank=True, required=False, max_length=255)
     created_at = serializers.DateTimeField(read_only=True)
 
     def create(self, validated_data):
@@ -37,8 +37,8 @@ class TransactionSerializer(serializers.Serializer):
 class GoalSerializer(serializers.Serializer):
     id = serializers.CharField(read_only=True)
     title = serializers.CharField(max_length=100)
-    target_amount = serializers.DecimalField(max_digits=12, decimal_places=2)
-    current_amount = serializers.DecimalField(max_digits=12, decimal_places=2, required=False)
+    target_amount = serializers.DecimalField(max_digits=12, decimal_places=2, min_value=0)
+    current_amount = serializers.DecimalField(max_digits=12, decimal_places=2, required=False, min_value=0)
     due_date = serializers.DateField()
 
     def create(self, validated_data):

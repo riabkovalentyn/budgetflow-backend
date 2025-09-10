@@ -21,7 +21,7 @@ class GoalViewSet(mixins.ListModelMixin,
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
         except Exception as exc:
-            return Response({'detail': 'Database unavailable', 'error': str(exc)}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+                return Response({'detail': 'database_unavailable'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
     def create(self, request, *args, **kwargs):
         try:
@@ -31,4 +31,4 @@ class GoalViewSet(mixins.ListModelMixin,
             out = self.get_serializer(instance)
             return Response(out.data, status=status.HTTP_201_CREATED)
         except Exception as exc:
-            return Response({'detail': 'Database unavailable', 'error': str(exc)}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+                return Response({'detail': 'database_unavailable'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)

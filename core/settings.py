@@ -112,6 +112,5 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # AI settings
-AI_PROVIDER = config('AI_PROVIDER', default='openai')
-OPENAI_API_KEY = config('OPENAI_API_KEY', default='')
 AI_FEATURES_ENABLED = config('AI_FEATURES_ENABLED', cast=bool, default=False)
+AI_SERVICE_URL = config('AI_SERVICE_URL', default='http://ai-service:8001')
