@@ -5,8 +5,8 @@ python-decouple>=3.8
 djangorestframework-simplejwt>=5.3
 django-cors-headers>=4.4
 python-dotenv>=1.0
-pytest
-pytest-django
+pytest>=8.3,<9.0
+pytest-django>=4.10,<5.0
 requests>=2.32.3
 fastapi>=0.115.0
 httpx>=0.27.2

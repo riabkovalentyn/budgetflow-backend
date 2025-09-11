@@ -66,3 +66,13 @@ JWT:
 - Django uses SQLite for auth/admin. Domain data is in MongoDB via MongoEngine.
 - CORS enabled for Next.js dev origins.
 - Redis is provisioned for future Celery tasks.
+
+## CI/CD
+
+- CI: GitHub Actions runs lint and tests on pushes and PRs. See `.github/workflows/ci.yml`.
+- Docker: On pushes to `main` and tags `v*.*.*`, an image is published to GHCR at `ghcr.io/<owner>/<repo>`.
+
+Environment variables for local dev:
+
+- `DEBUG=1`, `ALLOWED_HOSTS=*`, `MONGO_URI=mongodb://localhost:27017/budgetflow_db`, `CORS_ALLOW_ALL_ORIGINS=true`.
+- For frontend, set `NEXT_PUBLIC_API_URL=http://localhost:8000/api`.

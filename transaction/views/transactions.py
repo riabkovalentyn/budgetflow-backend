@@ -19,7 +19,7 @@ class TransactionViewSet(mixins.ListModelMixin,
         try:
             queryset = self.get_queryset()
             serializer = self.get_serializer(queryset, many=True)
-            return Response(serializer.data)
+            return Response({'items': serializer.data})
         except Exception:
             return Response({'detail': 'database_unavailable'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
 

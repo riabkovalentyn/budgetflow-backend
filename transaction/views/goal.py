@@ -19,7 +19,7 @@ class GoalViewSet(mixins.ListModelMixin,
         try:
             queryset = self.get_queryset()
             serializer = self.get_serializer(queryset, many=True)
-            return Response(serializer.data)
+            return Response({'items': serializer.data})
         except Exception as exc:
                 return Response({'detail': 'database_unavailable'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
@@ -28,7 +28,6 @@ class GoalViewSet(mixins.ListModelMixin,
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             instance = serializer.save()
-            out = self.get_serializer(instance)
-            return Response(out.data, status=status.HTTP_201_CREATED)
+            return Response({'id': str(instance.id)}, status=status.HTTP_201_CREATED)
         except Exception as exc:
                 return Response({'detail': 'database_unavailable'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)

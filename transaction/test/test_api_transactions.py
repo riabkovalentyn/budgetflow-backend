@@ -26,4 +26,4 @@ def test_auth_and_list_transactions(monkeypatch):
     client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
     r = client.get('/api/transactions/')
     assert r.status_code == 200
-    assert r.json() == []
+    assert r.json() == {'items': []}
