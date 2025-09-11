@@ -108,7 +108,12 @@ SIMPLE_JWT = {
 # CORS (Next.js frontend)
 CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', cast=bool, default=True)
 CORS_ALLOWED_ORIGINS = [
-    origin.strip() for origin in config('CORS_ALLOWED_ORIGINS', default='http://localhost:3000,http://127.0.0.1:3000').split(',') if origin.strip()
+    origin.strip()
+    for origin in config(
+        'CORS_ALLOWED_ORIGINS',
+        default='http://localhost:3000,http://127.0.0.1:3000',
+    ).split(',')
+    if origin.strip()
 ]
 
 # AI settings

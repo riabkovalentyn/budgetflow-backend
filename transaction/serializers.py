@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Transaction, Goal, BankConnection, BankSyncSchedule
+from .models import Transaction, Goal
 from decimal import Decimal
 from datetime import datetime, time as time_cls, date as date_cls
 

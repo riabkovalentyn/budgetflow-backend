@@ -30,5 +30,6 @@ urlpatterns = [
     path('bank/connections/<str:connection_id>/sync', BankSyncNowView.as_view(), name='bank-sync-now'),
     path('bank/schedule', BankScheduleView.as_view(), name='bank-schedule'),
 ]
+# noqa: end of url patterns
 
 

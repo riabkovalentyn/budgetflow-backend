@@ -1,2 +1,5 @@
-from .transactions import TransactionViewSet
-from .goal import GoalViewSet
+"""Views package."""
+# noqa: namespace package
+"""Views package."""
+# noqa: namespace package
+

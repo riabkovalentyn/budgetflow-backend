@@ -1,3 +1,5 @@
-from django.test import TestCase
+"""Django test module placeholder (pytest is used)."""
+# noqa: file intentionally empty
+"""Django test module placeholder (pytest is used)."""
+# noqa: file intentionally empty
 
-# Create your tests here.

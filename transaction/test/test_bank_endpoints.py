@@ -6,7 +6,7 @@ from rest_framework.test import APIClient
 @pytest.mark.django_db
 def test_bank_providers_and_connections(monkeypatch):
     User = get_user_model()
-    u = User.objects.create_user(username='t2', password='p2', email='t2@example.com')
+    User.objects.create_user(username='t2', password='p2', email='t2@example.com')
     client = APIClient()
     resp = client.post('/api/token/', {'username': 't2', 'password': 'p2'}, format='json')
     assert resp.status_code == 200

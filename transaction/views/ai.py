@@ -4,7 +4,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.conf import settings
 import requests
-import json
 
 
 class AIAdviceView(APIView):

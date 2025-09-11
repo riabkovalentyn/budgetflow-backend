@@ -33,3 +33,8 @@ class TransactionViewSet(mixins.ListModelMixin,
         except Exception:
             return Response({'detail': 'database_unavailable'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
+
+
+
+
+

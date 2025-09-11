@@ -134,8 +134,17 @@ class BankScheduleView(APIView):
         interval_hours = int((request.data or {}).get("intervalHours", 2))
         sched = _get_or_create_schedule(request.user.id)
         if not sched:
-            next_run = datetime.utcnow() + timedelta(hours=interval_hours) if enabled else None
-            return Response({"schedule": {"enabled": enabled, "intervalHours": interval_hours, "nextRunAt": next_run.isoformat() if next_run else None}})
+            next_run = (
+                datetime.utcnow() + timedelta(hours=interval_hours)
+                if enabled else None
+            )
+            return Response({
+                "schedule": {
+                    "enabled": enabled,
+                    "intervalHours": interval_hours,
+                    "nextRunAt": next_run.isoformat() if next_run else None,
+                }
+            })
         sched.enabled = 1 if enabled else 0
         sched.interval_hours = interval_hours
         # naive next run
