@@ -17,7 +17,8 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
 
 # MongoDB (for domain models)
 MONGO_URI = config('MONGO_URI', default='mongodb://localhost:27017/budgetflow_db')
-connect(host=MONGO_URI)
+# Specify UUID representation to avoid PyMongo/MongoEngine deprecation warnings
+connect(host=MONGO_URI, uuidRepresentation='standard')
 
 # Application definition
 INSTALLED_APPS = [
