@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views.transactions import TransactionViewSet
 from .views.goal import GoalViewSet
 from .views.ai import AIAdviceView, AITranscribeView
+from .views.auth import RegisterView, MeView
 from .views.bank import (
     BankProvidersView,
     BankConnectionsView,
@@ -22,6 +23,9 @@ urlpatterns = [
     # Allow GET for advice (frontend uses GET), route both GET and POST to same view
     path('ai/advice/', AIAdviceView.as_view(), name='ai-advice'),
     path('ai/transcribe/', AITranscribeView.as_view(), name='ai-transcribe'),
+    # Auth endpoints
+    path('auth/register', RegisterView.as_view(), name='auth-register'),
+    path('auth/me', MeView.as_view(), name='auth-me'),
     # Bank endpoints
     path('bank/providers', BankProvidersView.as_view(), name='bank-providers'),
     path('bank/connections', BankConnectionsView.as_view(), name='bank-connections'),

@@ -1,3 +1,52 @@
+## Local setup on Windows: MongoDB and backend
+
+You can run MongoDB locally either with Docker (recommended) or with the MongoDB Community installer.
+
+### Option A: Docker Desktop
+
+1. Install Docker Desktop for Windows.
+2. Copy `.env.example` to `.env` and adjust if needed.
+3. Start the stack:
+
+```powershell
+docker compose up --build -d
+```
+
+This will start services:
+- backend (Django) on http://localhost:8000
+- mongo on port 27017 (data persisted in a Docker volume)
+- ai-service on http://localhost:8001
+
+### Option B: Native MongoDB on Windows
+
+1. Install MongoDB Community Server (MSI) from mongodb.com and keep defaults.
+2. Ensure it runs on `mongodb://localhost:27017`.
+3. Create `.env` in the project root (or use `.env.example`) and set:
+
+```
+MONGO_URI=mongodb://localhost:27017/budgetflow_db
+```
+
+4. Run the backend locally (without Docker):
+
+```powershell
+python -m venv .venv; .\.venv\Scripts\Activate.ps1; pip install -r requirements.txt; python manage.py migrate; python manage.py runserver 0.0.0.0:8000
+```
+
+Login/Token endpoints:
+- Obtain JWT: POST http://localhost:8000/api/token/ {"username","password"}
+- Refresh JWT: POST http://localhost:8000/api/token/refresh/ {"refresh"}
+- Register: POST http://localhost:8000/api/auth/register {username,email?,password}
+- Me: GET http://localhost:8000/api/auth/me (Authorization: Bearer <access>)
+
+### Running tests
+
+Tests do not require MongoDB to be running; DB calls are guarded in views used by tests.
+
+```powershell
+pytest -q
+```
+
 # BudgetFlow Backend (MVP)
 
 Backend API for BudgetFlow. Django + DRF + MongoDB (MongoEngine), JWT auth.
