@@ -9,7 +9,14 @@ from datetime import datetime
 
 
 class Transaction(Document):
-    meta = {'collection': 'transactions'}
+    meta = {
+        'collection': 'transactions',
+        'indexes': [
+            {'fields': ['user_id', '-created_at'], 'name': 'user_created_desc'},
+            {'fields': ['user_id', 'category'], 'name': 'user_category'},
+            {'fields': ['user_id', 'type'], 'name': 'user_type'},
+        ],
+    }
 
     user_id = IntField(required=True)  # Django auth user id
     type = StringField(required=True, choices=('income', 'expense'))
@@ -20,7 +27,13 @@ class Transaction(Document):
 
 
 class Goal(Document):
-    meta = {'collection': 'goals'}
+    meta = {
+        'collection': 'goals',
+        'indexes': [
+            {'fields': ['user_id', 'title'], 'name': 'user_title'},
+            {'fields': ['user_id', '-due_date'], 'name': 'user_due_desc'},
+        ],
+    }
 
     user_id = IntField(required=True)
     title = StringField(required=True, max_length=100)
@@ -34,7 +47,13 @@ class Goal(Document):
 
 
 class BankConnection(Document):
-    meta = {'collection': 'bank_connections'}
+    meta = {
+        'collection': 'bank_connections',
+        'indexes': [
+            {'fields': ['user_id', 'provider_id'], 'name': 'user_provider', 'unique': True},
+            {'fields': ['status'], 'name': 'status_only'},
+        ],
+    }
 
     user_id = IntField(required=True)
     provider_id = StringField(required=True)
@@ -46,7 +65,13 @@ class BankConnection(Document):
 
 
 class BankSyncSchedule(Document):
-    meta = {'collection': 'bank_sync_schedules'}
+    meta = {
+        'collection': 'bank_sync_schedules',
+        'indexes': [
+            {'fields': ['user_id'], 'name': 'user_only', 'unique': True},
+            {'fields': ['next_run_at'], 'name': 'next_run'},
+        ],
+    }
 
     user_id = IntField(required=True)
     enabled = IntField(default=0)  # 0/1 to keep it simple in Mongo

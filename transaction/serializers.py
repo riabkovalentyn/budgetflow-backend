@@ -6,7 +6,9 @@ from datetime import datetime, time as time_cls, date as date_cls
 
 class TransactionSerializer(serializers.Serializer):
     id = serializers.CharField(read_only=True)
-    type = serializers.ChoiceField(choices=(('income', 'income'), ('expense', 'expense')))
+    type = serializers.ChoiceField(
+        choices=(('income', 'income'), ('expense', 'expense'))
+    )
     amount = serializers.DecimalField(max_digits=12, decimal_places=2, min_value=0)
     category = serializers.CharField(max_length=150)
     description = serializers.CharField(allow_blank=True, required=False, max_length=255)
@@ -26,12 +28,21 @@ class TransactionSerializer(serializers.Serializer):
         data.update({
             'id': str(instance.id),
             'type': instance.type,
-            'amount': float(instance.amount) if instance.amount is not None else 0.0,
+            'amount': (
+                float(instance.amount)
+                if instance.amount is not None else 0.0
+            ),
             'category': instance.category,
             'description': getattr(instance, 'description', ''),
-            'created_at': instance.created_at.isoformat() if getattr(instance, 'created_at', None) else None,
+            'created_at': (
+                instance.created_at.isoformat()
+                if getattr(instance, 'created_at', None) else None
+            ),
             # Frontend expects 'date' string
-            'date': instance.created_at.date().isoformat() if getattr(instance, 'created_at', None) else None,
+            'date': (
+                instance.created_at.date().isoformat()
+                if getattr(instance, 'created_at', None) else None
+            ),
         })
         return data
 
@@ -40,8 +51,12 @@ class GoalSerializer(serializers.Serializer):
     id = serializers.CharField(read_only=True)
     title = serializers.CharField(max_length=100)
     # Optional fields to match frontend
-    target_amount = serializers.DecimalField(max_digits=12, decimal_places=2, min_value=0, required=False)
-    current_amount = serializers.DecimalField(max_digits=12, decimal_places=2, required=False, min_value=0)
+    target_amount = serializers.DecimalField(
+        max_digits=12, decimal_places=2, min_value=0, required=False
+    )
+    current_amount = serializers.DecimalField(
+        max_digits=12, decimal_places=2, required=False, min_value=0
+    )
     due_date = serializers.DateField(required=False)
     description = serializers.CharField(allow_blank=True, required=False, max_length=255)
     image = serializers.CharField(allow_blank=True, required=False, max_length=255)
@@ -66,9 +81,17 @@ class GoalSerializer(serializers.Serializer):
         data.update({
             'id': str(instance.id),
             'title': instance.title,
-            'target_amount': float(instance.target_amount) if instance.target_amount is not None else 0.0,
-            'current_amount': float(getattr(instance, 'current_amount', Decimal('0'))),
-            'due_date': instance.due_date.date().isoformat() if getattr(instance, 'due_date', None) else None,
+            'target_amount': (
+                float(instance.target_amount)
+                if instance.target_amount is not None else 0.0
+            ),
+            'current_amount': float(
+                getattr(instance, 'current_amount', Decimal('0'))
+            ),
+            'due_date': (
+                instance.due_date.date().isoformat()
+                if getattr(instance, 'due_date', None) else None
+            ),
             'description': getattr(instance, 'description', ''),
             'image': getattr(instance, 'image', '/vercel.svg'),
         })
@@ -85,9 +108,14 @@ class BankConnectionSerializer(serializers.Serializer):
     providerId = serializers.CharField(source='provider_id')
     providerName = serializers.CharField(source='provider_name')
     status = serializers.ChoiceField(choices=(
-        ('connected', 'connected'), ('pending', 'pending'), ('error', 'error'), ('disconnected', 'disconnected')
+        ('connected', 'connected'),
+        ('pending', 'pending'),
+        ('error', 'error'),
+        ('disconnected', 'disconnected'),
     ))
-    lastSyncedAt = serializers.DateTimeField(source='last_synced_at', required=False, allow_null=True)
+    lastSyncedAt = serializers.DateTimeField(
+        source='last_synced_at', required=False, allow_null=True
+    )
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

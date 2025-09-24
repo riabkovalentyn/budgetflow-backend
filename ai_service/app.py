@@ -30,7 +30,8 @@ def advice(body: AdviceIn):
         from openai import OpenAI
         client = OpenAI(api_key=api_key)
         system = (
-            "You are a financial assistant. Analyze transactions and give 3-5 helpful, concise tips."
+            "You are a financial assistant. Analyze transactions and give 3-5 "
+            "helpful, concise tips."
         )
         content = json.dumps(body.dict())
         completion = client.chat.completions.create(

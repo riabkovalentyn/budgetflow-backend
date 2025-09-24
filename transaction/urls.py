@@ -14,8 +14,12 @@ from .views.bank import (
 )
 
 router = DefaultRouter()
-router.register(r'transactions', TransactionViewSet, basename='transaction')
-router.register(r'goals', GoalViewSet, basename='goal')
+router.register(
+    r'transactions', TransactionViewSet, basename='transaction'
+)
+router.register(
+    r'goals', GoalViewSet, basename='goal'
+)
 
 
 urlpatterns = [
@@ -30,8 +34,16 @@ urlpatterns = [
     path('bank/providers', BankProvidersView.as_view(), name='bank-providers'),
     path('bank/connections', BankConnectionsView.as_view(), name='bank-connections'),
     path('bank/connect', BankStartConnectView.as_view(), name='bank-connect'),
-    path('bank/connections/<str:connection_id>/disconnect', BankDisconnectView.as_view(), name='bank-disconnect'),
-    path('bank/connections/<str:connection_id>/sync', BankSyncNowView.as_view(), name='bank-sync-now'),
+    path(
+        'bank/connections/<str:connection_id>/disconnect',
+        BankDisconnectView.as_view(),
+        name='bank-disconnect',
+    ),
+    path(
+        'bank/connections/<str:connection_id>/sync',
+        BankSyncNowView.as_view(),
+        name='bank-sync-now',
+    ),
     path('bank/schedule', BankScheduleView.as_view(), name='bank-schedule'),
 ]
 # noqa: end of url patterns

@@ -7,6 +7,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status, serializers
 from rest_framework_simplejwt.tokens import RefreshToken
+from core.ratelimit import ratelimit
 
 
 User = get_user_model()
@@ -44,6 +45,7 @@ class RegisterSerializer(serializers.Serializer):
 class RegisterView(APIView):
     permission_classes = [AllowAny]
 
+    @ratelimit(key='ip', rate='5/m', block=True)
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if not serializer.is_valid():

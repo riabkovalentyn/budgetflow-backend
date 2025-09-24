@@ -103,9 +103,58 @@ When running backend locally and services in Docker, set `MONGO_URI=mongodb://lo
 
 ## API
 - POST /api/transactions/
-- GET  /api/transactions/
+- GET  /api/transactions/ (supports filters & pagination)
+- GET  /api/transactions/summary/ (aggregated totals, cached 30s)
 - POST /api/goals/
 - GET  /api/goals/
+
+Filters for GET /api/transactions/ (all optional):
+
+| Param | Example | Description |
+|-------|---------|-------------|
+| date_from | 2025-01-01 | Include transactions created at or after this date |
+| date_to | 2025-01-31 | Include transactions up to end of this day |
+| category | food,travel | Comma-separated list (OR logic) |
+| type | income / expense | Filter by transaction type |
+| min_amount | 10 | Minimum amount (inclusive) |
+| max_amount | 500 | Maximum amount (inclusive) |
+| page | 1 | Page number (>=1) |
+| page_size | 20 | Items per page (1..100) |
+
+Response shape:
+```
+{
+   "items": [...],
+   "pagination": {
+      "page": 1,
+      "page_size": 20,
+      "total": 135,
+      "pages": 7
+   }
+}
+```
+`pagination` block is omitted if total <= page_size.
+
+Summary endpoint `GET /api/transactions/summary/`:
+```
+{
+   "totalIncome": 1234.50,
+   "totalExpense": 567.10,
+   "net": 667.40
+}
+```
+Cached for 30 seconds (Redis if configured, else locmem). Cache key invalidation relies on short TTL (lightweight) – extend later with signals if needed.
+
+OpenAPI & Docs:
+- Raw schema: /api/schema/
+- Swagger UI: /api/docs/
+- ReDoc: /api/redoc/
+
+Rate Limits (django-ratelimit):
+- Register: 5 requests / minute per IP
+- AI Advice: 20 requests / minute (user or IP)
+- AI Transcribe: 10 requests / minute (user or IP)
+429 responses are returned when limits exceeded.
 
 JWT:
 - POST /api/token/
@@ -114,7 +163,9 @@ JWT:
 ## Notes
 - Django uses SQLite for auth/admin. Domain data is in MongoDB via MongoEngine.
 - CORS enabled for Next.js dev origins.
-- Redis is provisioned for future Celery tasks.
+- Redis is used for caching (transaction summary) and rate limiting backend store (if configured).
+   Fallback cache is in-memory if Redis not available.
+   Configure via `REDIS_URL=redis://localhost:6379/0`.
 
 ## CI/CD
 
