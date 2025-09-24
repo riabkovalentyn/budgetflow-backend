@@ -6,9 +6,16 @@ from rest_framework.test import APIClient
 @pytest.mark.django_db
 def test_transactions_filters_and_pagination(monkeypatch):
     User = get_user_model()
-    user = User.objects.create_user(username='f1', password='p1', email='f1@example.com')
+    User.objects.create_user(
+        username='f1', password='p1', email='f1@example.com'
+    )
     client = APIClient()
-    token = client.post('/api/token/', {'username': 'f1', 'password': 'p1'}, format='json').data['access']
+    token_resp = client.post(
+        '/api/token/',
+        {'username': 'f1', 'password': 'p1'},
+        format='json',
+    )
+    token = token_resp.data['access']
     client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
 
     # Create a fake list of objects mimicking MongoEngine docs (only attrs used by serializer)
@@ -23,10 +30,17 @@ def test_transactions_filters_and_pagination(monkeypatch):
 
     from datetime import datetime, timedelta, timezone
     base = datetime.now(timezone.utc)
-    fake = [
-        DummyTx(str(i), 'income' if i % 2 == 0 else 'expense', i * 10, 'catA' if i % 3 == 0 else 'catB', base - timedelta(days=i))
-        for i in range(30)
-    ]
+    fake = []
+    for i in range(30):
+        fake.append(
+            DummyTx(
+                str(i),
+                'income' if i % 2 == 0 else 'expense',
+                i * 10,
+                'catA' if i % 3 == 0 else 'catB',
+                base - timedelta(days=i),
+            )
+        )
 
     class FakeQS(list):
         def count(self_inner):  # noqa: N802
@@ -53,9 +67,16 @@ def test_transactions_filters_and_pagination(monkeypatch):
 @pytest.mark.django_db
 def test_transactions_summary(monkeypatch):
     User = get_user_model()
-    user = User.objects.create_user(username='s1', password='p1', email='s1@example.com')
+    User.objects.create_user(
+        username='s1', password='p1', email='s1@example.com'
+    )
     client = APIClient()
-    token = client.post('/api/token/', {'username': 's1', 'password': 'p1'}, format='json').data['access']
+    token_resp = client.post(
+        '/api/token/',
+        {'username': 's1', 'password': 'p1'},
+        format='json',
+    )
+    token = token_resp.data['access']
     client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
 
     # Monkeypatch summary to avoid Mongo dependency
